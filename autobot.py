@@ -39,7 +39,7 @@ GPT_API_KEY = os.getenv("GPT_API_KEY")
 XP_TOKEN_CONTRACT_ADDRESS = os.getenv("XP_TOKEN_CONTRACT_ADDRESS")
 XP_OWNER_PRIVATE_KEY = os.getenv("XP_OWNER_PRIVATE_KEY")
 CHAIN_ID = int(os.getenv("CHAIN_ID"))
-RPC_URL = os.getenv("RPC_URL")
+WEB3_RPC = os.getenv("WEB3_RPC")
 
 client = openai.AsyncOpenAI(api_key=GPT_API_KEY)
 
@@ -377,7 +377,7 @@ def get_price(symbol):
 
 # -------------------- Mint XP --------------------
 def mint(wallet_address, amount):
-    web3 = Web3(Web3.HTTPProvider(RPC_URL))
+    web3 = Web3(Web3.HTTPProvider(WEB3_RPC))
     contract = web3.eth.contract(address=web3.to_checksum_address(XP_TOKEN_CONTRACT_ADDRESS), abi=XP_TOKEN_ABI)
     owner = Account.from_key(XP_OWNER_PRIVATE_KEY)
     nonce = web3.eth.get_transaction_count(owner.address)
