@@ -380,7 +380,7 @@ def mint(wallet_address, amount):
     web3 = Web3(Web3.HTTPProvider(WEB3_RPC))
     contract = web3.eth.contract(address=web3.to_checksum_address(XP_TOKEN_CONTRACT_ADDRESS), abi=XP_TOKEN_ABI)
     owner = Account.from_key(XP_OWNER_PRIVATE_KEY)
-    nonce = web3.eth.get_transaction_count(owner.address)
+    nonce = web3.eth.get_transaction_count(owner.address, 'pending')
 
     tx = contract.functions.mint(wallet_address, Web3.to_wei(amount, 'ether')).build_transaction({
         "chainId": int(CHAIN_ID),
