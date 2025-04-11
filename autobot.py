@@ -55,6 +55,22 @@ TOKENS = [
     {"symbol": "ripple", "coin_id": "XRP"},
     {"symbol": "dogecoin", "coin_id": "DOGE"},
     {"symbol": "solana", "coin_id": "SOL"},
+    {"symbol": "cardano", "coin_id": "ADA"},
+    {"symbol": "polkadot", "coin_id": "DOT"},
+    {"symbol": "avalanche-2", "coin_id": "AVAX"},
+    {"symbol": "chainlink", "coin_id": "LINK"},
+    {"symbol": "tron", "coin_id": "TRX"},
+    {"symbol": "litecoin", "coin_id": "LTC"},
+    {"symbol": "uniswap", "coin_id": "UNI"},
+    {"symbol": "cosmos", "coin_id": "ATOM"},
+    {"symbol": "stellar", "coin_id": "XLM"},
+    {"symbol": "filecoin", "coin_id": "FIL"},
+    {"symbol": "internet-computer", "coin_id": "ICP"},
+    {"symbol": "aptos", "coin_id": "APT"},
+    {"symbol": "arbitrum", "coin_id": "ARB"},
+    {"symbol": "the-graph", "coin_id": "GRT"},
+    {"symbol": "vechain", "coin_id": "VET"},
+    {"symbol": "near", "coin_id": "NEAR"},
 ]
 
 XP_TOKEN_ABI = [
@@ -199,8 +215,8 @@ def insert_bet(profile_id, token, entry_price, symbol):
         ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, '', 0, %s, %s)
         RETURNING id
     """, (
-        profile_id, token, prediction, 10, 1, entry_price_decimal,
-        result, symbol, datetime.now(), datetime.now()
+        profile_id, symbol, prediction, 10, 1, entry_price_decimal,
+        result, token, datetime.now(), datetime.now()
     ))
     bet_id = cursor.fetchone()[0]
     conn.commit()
@@ -409,7 +425,7 @@ def run_simulate_fake_user():
         price = get_price(symbol)
         gpt_result = await get_analysis(symbol, coin_id, "15m", 120)
         insert_gen_data(gpt_result, user_id)
-        bet_id, xp_amount = insert_bet(profile_id, coin_id, price, symbol.upper())
+        bet_id, xp_amount = insert_bet(profile_id, coin_id, price, symbol)
 
         tx_hash, status_code = mint(wallet_address, xp_amount)
         status = "success" if status_code == 1 else "failed"
